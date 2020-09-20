@@ -1,40 +1,26 @@
 version: "3.7"
 
 services:
-  ptpro-providers-module:
+  fe-ptpro-providers:
     image: fe-ptpro-providers
     build:
       context: .
       dockerfile: docker/dockerfile
-    container_name: fe-ptpro-providers-module
+    container_name: fe-ptpro-providers
     hostname: 'localhost'
     restart: "no"
     tty: true
-    working_dir: /app
+    working_dir: /usr/www/app/src/modules/
     environment:
       NG_CLI_ANALYTICS: "false"
     ports:
       - "4800:4800"
     volumes:
-      - ./module:/usr/src/app/src/providers
+      - ./module:/usr/www/app/src/providers
     #command: sh -c "/tmp/submodules.sh"
     networks:
       - app-network
       
-  nginx-server:
-    image: nginx:alpine
-    container_name: nginx-server
-    restart: "no"
-    tty: true
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
-    depends_on:
-      - 'angular-ui'
-    networks:
-      - app-network
 #Docker networks
 networks:
   app-network:
